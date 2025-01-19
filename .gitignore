@@ -37,3 +37,5 @@ yarn-error.*
 
 .eslintrc.cjs
 .prettierrc.mjs
+
+.env
