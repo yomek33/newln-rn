@@ -1,0 +1,42 @@
+{
+  "name": "newln",
+  "version": "1.0.0",
+  "main": "src/screens/app.tsx",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "clean": "git clean -xdf .cache .expo android ios node_modules",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "fmt": "prettier --check \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}\"",
+    "fmt:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}\""
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~4.0.0",
+    "expo": "~52.0.25",
+    "expo-status-bar": "~2.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.6",
+    "react-native-web": "~0.19.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@types/eslint": "^9.6.1",
+    "@types/react": "~18.3.12",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "~8.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.10",
+    "typescript": "^5.3.3"
+  },
+  "private": true
+}
