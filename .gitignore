@@ -39,3 +39,5 @@ yarn-error.*
 .prettierrc.mjs
 
 .env
+
+google-services.json"
