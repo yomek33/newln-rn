@@ -4,9 +4,12 @@ import { registerRootComponent } from "expo";
 import { type Session } from "@supabase/supabase-js";
 import { Button, TamaguiProvider } from "tamagui";
 
+
+
 import appConfig from "../../tamagui.config";
 import Auth from "../components/Auth";
 import { supabase } from "../services/supabase";
+
 
 const App: FC = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -27,10 +30,6 @@ const App: FC = () => {
   }, []);
   return (
     <TamaguiProvider config={appConfig}>
-      {/* <View style={styles.container}>
-        <Auth />
-        {session?.user && <Text>{session.user.id}</Text>}
-      </View> */}
       <View style={styles.container}>
         <Button theme="blue">Hello world</Button>
         <Auth />
