@@ -6,6 +6,7 @@ import React, {
   type ReactNode,
 } from "react";
 
+import LoadingScreen from "../components/LoadingScreen";
 import { supabase } from "../services/supabase";
 
 interface User {
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ user, loading, setUser }}>
-      {children}
+      {loading ? <LoadingScreen /> : children}
     </AuthContext.Provider>
   );
 };
