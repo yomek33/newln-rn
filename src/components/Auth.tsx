@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Button, Input } from "@rneui/themed";
 
 import { supabase } from "../services/supabase";
@@ -8,7 +9,7 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   async function signInWithEmail() {
     console.log("signInWithEmail called");
     setLoading(true);
@@ -21,6 +22,8 @@ export default function Auth() {
     if (error) {
       console.log("Error:", error.message);
       Alert.alert(error.message);
+    } else {
+      router.dismissTo("/");
     }
     setLoading(false);
     console.log("signInWithEmail finished");
@@ -41,6 +44,8 @@ export default function Auth() {
     if (error) {
       console.log("Error:", error.message);
       Alert.alert(error.message);
+    } else {
+      router.dismissTo("/");
     }
     if (!session) {
       console.log("No session, email verification needed");

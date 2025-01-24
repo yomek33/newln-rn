@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "tamagui";
@@ -8,7 +8,6 @@ import { useAuth } from "../contexts/AuthContext";
 export default function Home() {
   const { user } = useAuth();
   const router = useRouter();
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to the Home Screen!</Text>
@@ -18,7 +17,7 @@ export default function Home() {
           <Button onPress={() => router.push("/profile")}>Go to Profile</Button>
         </>
       ) : (
-        <Button onPress={() => router.push("/login")}>Go to Login</Button>
+        <Button onPress={() => router.dismissTo("/login")}>Go to Login</Button>
       )}
     </View>
   );

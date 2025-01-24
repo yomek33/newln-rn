@@ -3,8 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "tamagui";
 
+
+
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
+
 
 export default function Profile() {
   const { user, setUser } = useAuth();
@@ -13,7 +16,7 @@ export default function Profile() {
   const signOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
-    router.push("/login");
+    router.dismissTo("/login");
   };
 
   return (
