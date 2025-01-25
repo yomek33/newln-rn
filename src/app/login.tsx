@@ -1,10 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-
-
-import Auth from "./components/Auth";
-
+import Auth from "../components/Auth";
 
 export default function Login() {
   return (

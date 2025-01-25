@@ -1,58 +1,46 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Input } from "@rneui/themed";
 
-import { supabase } from "../services/supabase";
+import {
+  signInWithEmail,
+  signUpWithEmail,
+  supabase,
+} from "../services/supabase";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  async function signInWithEmail() {
-    console.log("signInWithEmail called");
-    setLoading(true);
-    console.log("Email:", email);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
 
-    if (error) {
-      console.log("Error:", error.message);
-      Alert.alert(error.message);
-    } else {
+  async function handleSignIn() {
+    try {
+      setLoading(true);
+      await signInWithEmail(email, password);
       router.dismissTo("/");
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-    console.log("signInWithEmail finished");
   }
 
-  async function signUpWithEmail() {
-    console.log("signUpWithEmail called");
-    setLoading(true);
-    console.log("Email:", email);
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      console.log("Error:", error.message);
-      Alert.alert(error.message);
-    } else {
+  async function handleSignUp() {
+    try {
+      setLoading(true);
+      const session = await signUpWithEmail(email, password);
+      if (!session) {
+        Alert.alert("Please check your inbox for email verification!");
+      }
       router.dismissTo("/");
+    } catch (error) {
+      Alert.alert((error as Error).message);
+    } finally {
+      setLoading(false);
     }
-    if (!session) {
-      console.log("No session, email verification needed");
-      Alert.alert("Please check your inbox for email verification!");
-    }
-    setLoading(false);
-    console.log("signUpWithEmail finished");
   }
 
   return (
@@ -79,18 +67,10 @@ export default function Auth() {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button
-          title="Sign in"
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
+        <Button title="Sign in" disabled={loading} onPress={handleSignIn} />
       </View>
       <View style={styles.verticallySpaced}>
-        <Button
-          title="Sign up"
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
+        <Button title="Sign up" disabled={loading} onPress={handleSignUp} />
       </View>
     </View>
   );
