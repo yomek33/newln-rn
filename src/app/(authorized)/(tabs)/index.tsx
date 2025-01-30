@@ -1,36 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
+import { useRouter } from "expo-router";
+import { useShallow } from "zustand/react/shallow";
 
-import { getMaterials, type Material } from "../../../hooks/material_api";
+import MaterialPreviewCard from "../../../components/MaterialPreviewCard";
+import { type Material } from "../../../hooks/material_api";
+import { useMaterialStore } from "../../../stores/materialStore";
 
-export default function Tab() {
-  const [materials, setMaterials] = useState<Material[] | null>(null);
-  const [loading, setLoading] = useState(true);
+export default function Home() {
+  const { materials, fetchMaterials } = useMaterialStore(
+    useShallow((state) => ({
+      materials: state.materials as Material[] | null,
+      fetchMaterials: state.fetchMaterials,
+    })),
+  );
+
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        console.log("Fetching materials...");
-        const data = await getMaterials();
-        console.log("Fetched materials:", data);
-        setMaterials(data);
-      } catch (error) {
-        console.error("Failed to fetch materials:", error);
-      } finally {
-        setLoading(false);
-        console.log("Loading state set to false");
-      }
-    };
     void fetchMaterials();
   }, []);
 
-  if (loading) {
+  if (!materials) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -38,29 +36,29 @@ export default function Tab() {
     );
   }
 
-  if (!materials || materials.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text>No materials found.</Text>
-      </View>
-    );
-  }
+  const sortedMaterials = [...materials].sort(
+    (a, b) => new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime(),
+  );
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={materials}
-        keyExtractor={(item) => item.ID.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.title}>{item.Title}</Text>
-            <Text style={styles.content}>
-              {item.Content ?? "No content available"}
-            </Text>
-            <Text style={styles.status}>Status: {item.Status}</Text>
-          </View>
-        )}
-      />
+      {sortedMaterials.length > 0 ? (
+        <FlatList
+          data={sortedMaterials}
+          keyExtractor={(item) => item.LocalULID}
+          renderItem={({ item }) => <MaterialPreviewCard material={item} />}
+        />
+      ) : (
+        <Text>No materials found.</Text>
+      )}
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => {
+          router.push("/newPost");
+        }}
+      >
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -69,31 +67,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  card: {
-    backgroundColor: "#f9f9f9",
     padding: 15,
-    marginVertical: 10,
-    borderRadius: 8,
+    width: "100%",
+  },
+  floatingButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#007BFF",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5,
-    elevation: 3,
-    width: "100%",
+    elevation: 5,
   },
-  title: {
-    fontSize: 18,
+  buttonText: {
+    color: "#fff",
+    fontSize: 24,
     fontWeight: "bold",
-  },
-  content: {
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  status: {
-    fontSize: 14,
-    color: "#888",
   },
 });
