@@ -1,16 +1,17 @@
 import { getToken, refreshToken } from "../services/supabase";
 
+
 interface FetchWithTokenOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
-  body?: Record<string, unknown> | null;
+  body?: Record<string, unknown> | string | null;
   requireToken?: boolean;
 }
 
 export const fetchWithToken = async <T>(
   url: string,
   options: FetchWithTokenOptions = {},
-): Promise<T> => {
+): Promise<{ data: T; status: number }> => {
   const {
     method = "GET",
     headers = {},
@@ -26,7 +27,9 @@ export const fetchWithToken = async <T>(
         throw new Error("Token not found. User might be logged out.");
       }
     }
-    console.log("fetchWithToken", url, method, body, requireToken, token);
+
+    const serializedBody =
+      body && typeof body === "object" ? JSON.stringify(body) : undefined;
 
     let response = await fetch(url, {
       method,
@@ -35,10 +38,10 @@ export const fetchWithToken = async <T>(
         ...(requireToken ? { Authorization: `Bearer ${token}` } : {}),
         "Content-Type": "application/json",
       },
-      body: body ? JSON.stringify(body) : undefined,
+      body: serializedBody,
     });
 
-    // トークンが期限切れの場合、リフレッシュを試みる
+    // Handle token expiration
     if (response.status === 401 && requireToken) {
       console.warn("Token expired, attempting to refresh...");
       await refreshToken();
@@ -55,7 +58,7 @@ export const fetchWithToken = async <T>(
           Authorization: `Bearer ${newToken}`,
           "Content-Type": "application/json",
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: serializedBody,
       });
     }
 
@@ -67,7 +70,7 @@ export const fetchWithToken = async <T>(
     }
 
     const data: T = (await response.json()) as T;
-    return data;
+    return { data, status: response.status }; // Include status in the return value
   } catch (error) {
     console.error("Error during fetchWithToken:", error);
     throw error;

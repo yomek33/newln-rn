@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 
+
+
 import { createMaterial } from "../../hooks/material_api";
-import { useMaterialStore } from "../../stores/materialStore";
+import { useMaterialStore } from "../../stores/materialListStore";
+
 
 export default function NewPost() {
   const [title, setTitle] = useState("");
@@ -38,7 +35,7 @@ export default function NewPost() {
         };
         console.log("Adding new material to store:", newMaterial);
         addMaterial(newMaterial);
-        router.back();
+        router.dismissTo(`/(authorized)/material/${newMaterial.LocalULID}`);
       } else {
         console.error("Failed to create new material:", response);
       }

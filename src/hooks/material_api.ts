@@ -4,6 +4,7 @@ import { type Chat, type Phrase, type Word } from "./phares_api";
 export interface Material {
   ID: number;
   UserID: string;
+  LocalULID: string;
   Title: string;
   Content: string | null;
   Status: "draft" | "published";
@@ -15,26 +16,38 @@ export interface Material {
   DeletedAt?: string | null;
 }
 
-//  GET /api/phrases: 全てのPhraseデータを取得
-export const getMaterials = async (): Promise<Material[]> => {
+// GET /api/materials: Retrieve all Material data
+export const getMaterials = async (): Promise<{
+  data: Material[];
+  status: number;
+}> => {
   return fetchWithToken<Material[]>("http://localhost:8080/api/materials", {
     method: "GET",
   });
 };
 
-// POST /api/materials: 新しいMaterialデータを作成
+// POST /api/materials: Create a new Material entry
 export const createMaterial = async (
-  material: Omit<Material, "id" | "words" | "phrases" | "chats">,
-): Promise<Material> => {
+  material: Pick<Material, "Title" | "Content">,
+): Promise<{ data: Material; status: number }> => {
   return fetchWithToken<Material>("http://localhost:8080/api/materials", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: material,
   });
 };
 
-//  GET /api/materials/[id]: 特定のMaterialデータを取得
-export const getMaterialById = async (id: number): Promise<Material> => {
-  return fetchWithToken<Material>(`http://localhost:8080/api/materials/${id}`, {
-    method: "GET",
-  });
+// GET /api/materials/[id]: Retrieve a specific Material by ID
+export const getMaterialById = async (
+  ulid: string,
+): Promise<{ data: Material; status: number }> => {
+  console.log("getMaterialById", ulid);
+  return fetchWithToken<Material>(
+    `http://localhost:8080/api/materials/${ulid}`,
+    {
+      method: "GET",
+    },
+  );
 };
