@@ -1,6 +1,7 @@
 import { fetchWithToken } from "./fetch";
 import { type Chat, type Phrase, type Word } from "./phares_api";
 
+
 export interface Material {
   ID: number;
   UserID: string;
@@ -8,12 +9,25 @@ export interface Material {
   Title: string;
   Content: string | null;
   Status: "draft" | "published";
-  Words: Word[] | null;
-  Phrases: Phrase[] | null;
-  Chats: Chat[] | null;
+  WordLists: WordLists[] | null;
+  PhraseLists: PhraseLists[] | null;
+  ChatList: Chat[] | null;
   CreatedAt: string;
   UpdatedAt: string | null;
   DeletedAt?: string | null;
+}
+
+export interface WordLists {
+  ID: number;
+  Title: string;
+  Words: Word[];
+  GenerateStatus: string;
+}
+export interface PhraseLists {
+  ID: number;
+  Title: string;
+  Phrases: Phrase[];
+  GenerateStatus: string;
 }
 
 // GET /api/materials: Retrieve all Material data

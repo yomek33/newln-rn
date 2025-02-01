@@ -1,36 +1,39 @@
-import { Tabs } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { Stack, useLocalSearchParams } from "expo-router";
 
-export default function MaterialTabsLayout() {
+import { useMaterialStore } from "../../../../stores/materialStore";
+
+export default function MaterialLayout() {
+  const { ulid } = useLocalSearchParams();
+  const { materials, fetchMaterial } = useMaterialStore();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadMaterial = async () => {
+      if (ulid && !Array.isArray(ulid)) {
+        setLoading(true);
+        await fetchMaterial(ulid);
+        setLoading(false);
+      }
+    };
+
+    loadMaterial().catch((error) => {
+      console.error("Failed to load material:", error);
+    });
+  }, [ulid]);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   return (
-    <Tabs>
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="article" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="wordsList"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="list" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="chat" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tabs>
+    <Stack initialRouteName="(tabs)">
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }
