@@ -2,15 +2,26 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
+
+
 import { type Material } from "../hooks/material_api";
+
 
 interface MaterialPreviewCardProps {
   material: Material;
 }
+
 const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
   material,
 }) => {
   const router = useRouter();
+
+  // Truncate content to 200 characters
+  const truncateContent = (text: string | null | undefined, limit: number) => {
+    if (!text) return "No content available";
+    return text.length > limit ? text.substring(0, limit) + "..." : text;
+  };
+
   return (
     <TouchableOpacity
       style={styles.card}
@@ -20,7 +31,7 @@ const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
     >
       <Text style={styles.title}>{material.Title}</Text>
       <Text style={styles.content}>
-        {material.Content ?? "No content available"}
+        {truncateContent(material.Content, 160)}
       </Text>
       <Text style={styles.status}>Status: {material.Status}</Text>
     </TouchableOpacity>

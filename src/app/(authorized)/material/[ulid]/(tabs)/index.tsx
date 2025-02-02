@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { ScrollView, Text } from "react-native";
+import React from "react";
+import { ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { H1, Spinner, YStack } from "tamagui";
+import { H6, SizableText, YStack } from "tamagui";
 
 import { useMaterialStore } from "../../../../../stores/materialStore";
 
@@ -13,8 +13,12 @@ const MaterialDetail = () => {
   return (
     <ScrollView>
       <YStack padding="$4">
-        <H1>{material?.Title ?? "No Title"}</H1>
-        <Text>{material?.Content ?? "No content available"}</Text>
+        <H6 fontWeight="bold" paddingBottom="$4">
+          {material?.Title ?? "No Title"}
+        </H6>
+        <SizableText size="$4">
+          {material?.Content ?? "No content available"}
+        </SizableText>
       </YStack>
     </ScrollView>
   );

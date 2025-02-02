@@ -9,6 +9,7 @@ import MaterialPreviewCard from "../../../components/MaterialPreviewCard";
 import { type Material } from "../../../hooks/material_api";
 import { useMaterialStore } from "../../../stores/materialListStore";
 
+
 export default function Home() {
   const { materials, fetchMaterials } = useMaterialStore(
     useShallow((state) => ({
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 24,
     fontWeight: "bold",
   },

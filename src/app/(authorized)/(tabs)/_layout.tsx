@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -20,6 +20,9 @@ export default function TabLayout() {
           name="profile"
           options={{
             title: "profile",
+            sceneStyle: {
+              backgroundColor: "white",
+            },
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name="cog" color={color} />
             ),

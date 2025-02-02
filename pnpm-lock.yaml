@@ -267,6 +267,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.26.7':
+    resolution: {integrity: sha512-kEvgGGgEjRUutvdVvZhbn/BxVt+5VSpwXz1j3WYXQbXDo8KzFOPNG2GQbdAiNq8g6wn1yKk7C/qrke03a84V+w==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/plugin-bugfix-firefox-class-in-computed-class-key@7.25.9':
     resolution: {integrity: sha512-ZkRyVkThtxQ/J6nv3JFYv1RYY+JT5BvU0y3k5bWrmuG4woXypRa4PXmm9RhOwodRkYFWqC0C0cqcJ4OqR7kW+g==}
     engines: {node: '>=6.9.0'}
@@ -780,8 +785,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-typeof-symbol@7.25.9':
-    resolution: {integrity: sha512-v61XqUMiueJROUv66BVIOi0Fv/CUuZuZMl5NkRoCVxLAnMexZ0A3kMe7vvZ0nulxMuMp0Mk6S5hNh48yki08ZA==}
+  '@babel/plugin-transform-typeof-symbol@7.26.7':
+    resolution: {integrity: sha512-jfoTXXZTgGg36BmhqT3cAYK5qkmqvJpvNrPhaK/52Vgjhw4Rq29s9UqpWWV0D6yuRmgiFH/BUVlkl96zJWqnaw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -863,8 +868,16 @@ packages:
     resolution: {integrity: sha512-rkOSPOw+AXbgtwUga3U4u8RpoK9FEFWBNAlTpcnkLFjL5CT+oyHNuUUC/xx6XefEJ16r38r8Bc/lfp6rYuHeJQ==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/traverse@7.26.7':
+    resolution: {integrity: sha512-1x1sgeyRLC3r5fQOM0/xtQKsYjyxmFjaOrLJNtZ81inNjyJHGIolTULPiSc/2qe1/qfpFLisLQYFnnZl7QoedA==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/types@7.26.5':
     resolution: {integrity: sha512-L6mZmwFDK6Cjh1nRCLXpa6no13ZIioJDz7mdkzHv399pThrTa/k0nUlNaenOeh2kWu/iaOQYElEpKPUswUa9Vg==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.26.7':
+    resolution: {integrity: sha512-t8kDRGrKXyp6+tjUh7hw2RLyclsW4TRoRvRHtSyAX9Bb5ldlFh+90YAYY6awRXrlB4G5G2izNeGySpATlFzmOg==}
     engines: {node: '>=6.9.0'}
 
   '@egjs/hammerjs@2.0.17':
@@ -5426,7 +5439,7 @@ snapshots:
     dependencies:
       '@babel/template': 7.25.9
       '@babel/traverse': 7.26.5
-      '@babel/types': 7.26.5
+      '@babel/types': 7.26.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5446,11 +5459,15 @@ snapshots:
     dependencies:
       '@babel/types': 7.26.5
 
+  '@babel/parser@7.26.7':
+    dependencies:
+      '@babel/types': 7.26.7
+
   '@babel/plugin-bugfix-firefox-class-in-computed-class-key@7.25.9(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/traverse': 7.26.5
+      '@babel/traverse': 7.26.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5477,7 +5494,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/traverse': 7.26.5
+      '@babel/traverse': 7.26.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5807,7 +5824,7 @@ snapshots:
       '@babel/helper-module-transforms': 7.26.0(@babel/core@7.26.0)
       '@babel/helper-plugin-utils': 7.26.5
       '@babel/helper-validator-identifier': 7.25.9
-      '@babel/traverse': 7.26.5
+      '@babel/traverse': 7.26.7
     transitivePeerDependencies:
       - supports-color
 
@@ -5986,7 +6003,7 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
 
-  '@babel/plugin-transform-typeof-symbol@7.25.9(@babel/core@7.26.0)':
+  '@babel/plugin-transform-typeof-symbol@7.26.7(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
@@ -6086,7 +6103,7 @@ snapshots:
       '@babel/plugin-transform-spread': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-sticky-regex': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-template-literals': 7.25.9(@babel/core@7.26.0)
-      '@babel/plugin-transform-typeof-symbol': 7.25.9(@babel/core@7.26.0)
+      '@babel/plugin-transform-typeof-symbol': 7.26.7(@babel/core@7.26.0)
       '@babel/plugin-transform-unicode-escapes': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-unicode-property-regex': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-unicode-regex': 7.25.9(@babel/core@7.26.0)
@@ -6111,7 +6128,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
-      '@babel/types': 7.26.5
+      '@babel/types': 7.26.7
       esutils: 2.0.3
 
   '@babel/preset-react@7.26.3(@babel/core@7.26.0)':
@@ -6168,7 +6185,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@babel/traverse@7.26.7':
+    dependencies:
+      '@babel/code-frame': 7.26.2
+      '@babel/generator': 7.26.5
+      '@babel/parser': 7.26.7
+      '@babel/template': 7.25.9
+      '@babel/types': 7.26.7
+      debug: 4.4.0
+      globals: 11.12.0
+    transitivePeerDependencies:
+      - supports-color
+
   '@babel/types@7.26.5':
+    dependencies:
+      '@babel/helper-string-parser': 7.25.9
+      '@babel/helper-validator-identifier': 7.25.9
+
+  '@babel/types@7.26.7':
     dependencies:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
@@ -10248,7 +10282,7 @@ snapshots:
   metro-source-map@0.81.0:
     dependencies:
       '@babel/traverse': 7.26.5
-      '@babel/traverse--for-generate-function-map': '@babel/traverse@7.26.5'
+      '@babel/traverse--for-generate-function-map': '@babel/traverse@7.26.7'
       '@babel/types': 7.26.5
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4

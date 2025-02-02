@@ -14,10 +14,8 @@ const appConfig = createTamagui({
   themes,
   tokens,
   shorthands,
-  fonts: {
-    heading: headingFont,
-    body: bodyFont,
-  },
+  backgroundColor: "#FFFFFF",
+
   light: {
     ...themes.light,
     background: "#FFFFFF",
