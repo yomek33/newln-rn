@@ -5,7 +5,7 @@ import { type Chat, type Phrase, type Word } from "./phares_api";
 export interface Material {
   ID: number;
   UserID: string;
-  LocalULID: string;
+  ULID: string;
   Title: string;
   Content: string | null;
   Status: "draft" | "published";

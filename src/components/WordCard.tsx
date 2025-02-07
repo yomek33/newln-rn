@@ -19,11 +19,11 @@ const WordCard: React.FC<WordCardProps> = ({ word }) => {
       <Card.Header padded>
         <XStack space="$2" alignItems="center">
           <H6>{word.Text}</H6>
-          <Paragraph theme="alt2">{word.Level}</Paragraph>
           <Spacer />
         </XStack>
         <Spacer />
-        <Paragraph theme="alt2">Now available</Paragraph>
+        <Paragraph>{word.Meaning}</Paragraph>
+        <Paragraph>{word.JPMeaning}</Paragraph>
       </Card.Header>
       <Card.Background />
     </Card>

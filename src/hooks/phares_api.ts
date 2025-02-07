@@ -5,6 +5,10 @@ export interface Phrase {
   CreatedAt: string;
   UpdatedAt: string | null;
   DeletedAt?: string | null;
+  Meaning: string;
+  JPMeaning: string;
+  Example: string;
+  Difficulty: "easy" | "intermediate" | "advance";
 }
 
 export interface Word {
@@ -14,6 +18,7 @@ export interface Word {
   Importance: "low" | "medium" | "high";
   Level: "beginner" | "intermediate" | "advanced";
   Meaning: string;
+  JPMeaning: string;
   Class?: string;
   CreatedAt: string;
   UpdatedAt: string | null;

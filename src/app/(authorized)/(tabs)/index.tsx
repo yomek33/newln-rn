@@ -41,7 +41,7 @@ export default function Home() {
       {sortedMaterials.length > 0 ? (
         <FlatList
           data={sortedMaterials}
-          keyExtractor={(item) => item.LocalULID}
+          keyExtractor={(item) => item.ULID}
           renderItem={({ item }) => <MaterialPreviewCard material={item} />}
         />
       ) : (

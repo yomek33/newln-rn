@@ -25,9 +25,7 @@ const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() =>
-        router.push(`/(authorized)/material/${material.LocalULID}`)
-      }
+      onPress={() => router.push(`/(authorized)/material/${material.ULID}`)}
     >
       <Text style={styles.title}>{material.Title}</Text>
       <Text style={styles.content}>

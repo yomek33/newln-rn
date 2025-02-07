@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { Stack, useLocalSearchParams, useNavigation } from "expo-router";
+
+
 
 import { useMaterialStore } from "../../../../stores/materialStore";
 
@@ -8,14 +10,18 @@ import { useMaterialStore } from "../../../../stores/materialStore";
 export default function MaterialLayout() {
   const { ulid } = useLocalSearchParams();
   const { materials, fetchMaterial } = useMaterialStore();
-  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadMaterial = async () => {
-      if (ulid && !Array.isArray(ulid)) {
+      if (ulid && typeof ulid === "string") {
         setLoading(true);
-        await fetchMaterial(ulid);
+        try {
+          await fetchMaterial(ulid); // 毎回最新データを取得
+        } catch (error) {
+          console.error("Failed to load material:", error);
+        }
         setLoading(false);
       }
     };
@@ -23,19 +29,17 @@ export default function MaterialLayout() {
     loadMaterial().catch((error) => {
       console.error("Failed to load material:", error);
     });
-  }, [ulid]);
+  }, [ulid]); // ulidが変わるたびにfetchMaterialを実行
 
   useEffect(() => {
-    if (ulid && !Array.isArray(ulid)) {
+    if (ulid && typeof ulid === "string" && materials[ulid]) {
       const material = materials[ulid];
-      if (material) {
-        navigation.setOptions({
-          title: material.Title,
-          contentStyle: { backgroundColor: "#FFFFFF" },
-        });
-      }
+      navigation.setOptions({
+        title: material.Title || "Material",
+        contentStyle: { backgroundColor: "#FFFFFF" },
+      });
     }
-  }, [navigation, ulid, materials]);
+  }, [ulid, materials, navigation]);
 
   if (loading) {
     return (

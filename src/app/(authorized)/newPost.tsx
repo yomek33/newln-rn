@@ -27,7 +27,7 @@ export default function NewPost() {
       if (response.status === 201) {
         console.log("New material created:", response.data);
         const newMaterial = {
-          LocalULID: response.data.LocalULID,
+          ULID: response.data.ULID,
           Title: response.data.Title,
           Content: response.data.Content,
           Status: response.data.Status,
@@ -35,7 +35,7 @@ export default function NewPost() {
         };
         console.log("Adding new material to store:", newMaterial);
         addMaterial(newMaterial);
-        router.dismissTo(`/(authorized)/material/${newMaterial.LocalULID}`);
+        router.dismissTo(`/(authorized)/material/${newMaterial.ULID}`);
       } else {
         console.error("Failed to create new material:", response);
       }
