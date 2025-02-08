@@ -15,6 +15,9 @@ export interface Material {
   CreatedAt: string;
   UpdatedAt: string | null;
   DeletedAt?: string | null;
+  HasPendingPhraseList: boolean;
+  HasPendingWordList: boolean;
+  generateStatus: string | null;
 }
 
 export interface WordLists {

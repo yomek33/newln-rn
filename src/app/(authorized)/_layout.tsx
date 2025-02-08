@@ -20,7 +20,7 @@ export default function AppLayout() {
     <Stack
       initialRouteName="(tabs)"
       screenOptions={{
-        contentStyle: { backgroundColor: "#FFFFFF" }, // Set background color to white
+        contentStyle: { backgroundColor: "#f1f0ee" },
       }}
     >
       <Stack.Screen name="material/[ulid]" />

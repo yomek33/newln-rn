@@ -2,14 +2,16 @@ import React from "react";
 import { Text } from "react-native";
 import { Card, H6, Paragraph, Spacer, XStack } from "tamagui";
 
+
+
 import { type Word } from "../hooks/phares_api";
+
 
 interface WordCardProps {
   word: Word | undefined;
 }
 
 const WordCard: React.FC<WordCardProps> = ({ word }) => {
-  console.log("WordCard:", word);
   if (!word) {
     return null;
   }

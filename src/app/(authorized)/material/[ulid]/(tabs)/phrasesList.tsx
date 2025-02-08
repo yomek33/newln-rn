@@ -1,18 +1,39 @@
-import React from "react";
-import { ScrollView, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { H6, Spacer, YStack } from "tamagui";
 
 import PhraseCard from "../../../../../components/PhraseCard";
 import { useMaterialStore } from "../../../../../stores/materialStore";
 
-
 const PhraseList = () => {
   const { ulid } = useLocalSearchParams();
   const { materials } = useMaterialStore();
-  const material = ulid && !Array.isArray(ulid) ? materials[ulid] : null;
+  const material = ulid && typeof ulid === "string" ? materials[ulid] : null;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (
+      material?.PhraseLists &&
+      material.PhraseLists.length > 0 &&
+      material.PhraseLists[0].Phrases.length > 0
+    ) {
+      setLoading(false);
+    }
+  }, [material?.HasPendingPhraseList, material?.PhraseLists]);
+
   const phraseLists = material?.PhraseLists ?? [];
+
   console.log("PhraseLists:", JSON.stringify(phraseLists, null, 2));
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
@@ -46,4 +67,5 @@ const PhraseList = () => {
     </ScrollView>
   );
 };
+
 export default PhraseList;

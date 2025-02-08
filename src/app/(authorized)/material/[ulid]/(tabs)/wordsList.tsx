@@ -1,9 +1,7 @@
-import React from "react";
-import { ScrollView, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { H6, YStack } from "tamagui";
-
-
 
 import WordCard from "../../../../../components/WordCard";
 import { type Word } from "../../../../../hooks/phares_api";
@@ -13,9 +11,34 @@ const WordsList = () => {
   const { ulid } = useLocalSearchParams();
   const { materials } = useMaterialStore();
   const material = ulid && !Array.isArray(ulid) ? materials[ulid] : null;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log(
+      "🧐 Current WordLists in state:",
+      JSON.stringify(material?.WordLists, null, 2),
+    );
+
+    if (
+      material?.WordLists &&
+      material.WordLists.length > 0 &&
+      material.WordLists.some((list) => list.Words.length > 0)
+    ) {
+      setLoading(false);
+    }
+  }, [material?.HasPendingWordList, material?.WordLists]);
+
   const WordLists = material?.WordLists ?? [];
 
   console.log("WordLists:", JSON.stringify(WordLists, null, 2));
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView>

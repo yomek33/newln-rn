@@ -3,6 +3,10 @@ import { View } from "react-native";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
+
+
+
+
 export default function TabLayout() {
   return (
     <View style={{ flex: 1 }}>
@@ -14,6 +18,9 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name="home" color={color} />
             ),
+            sceneStyle: {
+              backgroundColor: "#f1f0ee",
+            },
           }}
         />
         <Tabs.Screen
@@ -21,7 +28,7 @@ export default function TabLayout() {
           options={{
             title: "profile",
             sceneStyle: {
-              backgroundColor: "white",
+              backgroundColor: "#f1f0ee",
             },
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name="cog" color={color} />
