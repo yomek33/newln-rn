@@ -9,6 +9,7 @@ import MaterialPreviewCard from "../../../components/MaterialPreviewCard";
 import { type Material } from "../../../hooks/material_api";
 import { useMaterialStore } from "../../../stores/materialListStore";
 
+
 export default function Home() {
   const { materials, fetchMaterials } = useMaterialStore(
     useShallow((state) => ({
@@ -40,7 +41,7 @@ export default function Home() {
       {sortedMaterials.length > 0 ? (
         <FlatList
           data={sortedMaterials}
-          keyExtractor={(item) => item.LocalULID}
+          keyExtractor={(item) => item.ULID}
           renderItem={({ item }) => <MaterialPreviewCard material={item} />}
         />
       ) : (
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 24,
     fontWeight: "bold",
   },

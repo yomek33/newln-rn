@@ -1,49 +1,71 @@
-import React from "react";
-import { ScrollView, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { H1, YStack } from "tamagui";
+import { H6, Spacer, YStack } from "tamagui";
 
+import PhraseCard from "../../../../../components/PhraseCard";
 import { useMaterialStore } from "../../../../../stores/materialStore";
 
-const PhrasesList = () => {
+const PhraseList = () => {
   const { ulid } = useLocalSearchParams();
   const { materials } = useMaterialStore();
-  const material = ulid && !Array.isArray(ulid) ? materials[ulid] : null;
-  const PhraseLists = material?.PhraseLists ?? [];
+  const material = ulid && typeof ulid === "string" ? materials[ulid] : null;
+  const [loading, setLoading] = useState(true);
 
-  console.log("Material Keys:", Object.keys(material ?? {}));
-  console.log("PhraseLists:", JSON.stringify(PhraseLists, null, 2));
-  console.log("Is Array?", Array.isArray(PhraseLists));
-  console.log("PhraseLists Length:", PhraseLists?.length);
+  useEffect(() => {
+    if (
+      material?.PhraseLists &&
+      material.PhraseLists.length > 0 &&
+      material.PhraseLists[0].Phrases.length > 0
+    ) {
+      setLoading(false);
+    }
+  }, [material?.HasPendingPhraseList, material?.PhraseLists]);
+
+  const phraseLists = material?.PhraseLists ?? [];
+
+  console.log("PhraseLists:", JSON.stringify(phraseLists, null, 2));
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
       <YStack padding="$4">
-        <H1>Phrases List</H1>
-        {PhraseLists.length > 0 ? (
-          PhraseLists.map((phraseList) => (
-            <YStack key={phraseList.ID} paddingVertical="$2">
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                {phraseList.Title}
-              </Text>
-              {Array.isArray(phraseList.Phrases) &&
-              phraseList.Phrases.length > 0 ? (
-                phraseList.Phrases.map((phrase) => (
-                  <Text key={phrase.ID} style={{ fontSize: 16 }}>
-                    {phrase.Text}
-                  </Text>
-                ))
-              ) : (
-                <Text>フレーズがありません</Text>
-              )}
-            </YStack>
-          ))
+        <H6 fontWeight="bold" paddingBottom="$4">
+          <Text>Phrase List</Text>
+        </H6>
+        {phraseLists.length > 0 ? (
+          phraseLists[0].Phrases &&
+          Array.isArray(phraseLists[0].Phrases) &&
+          phraseLists[0].Phrases.length > 0 ? (
+            phraseLists[0].Phrases.map((phrase) => {
+              if (phrase && typeof phrase === "object" && "ID" in phrase) {
+                return (
+                  <React.Fragment key={String(phrase.ID)}>
+                    <PhraseCard phrase={phrase} />
+                    <Spacer />
+                  </React.Fragment>
+                );
+              }
+              return null;
+            })
+          ) : (
+            <Text>フレーズがありません</Text>
+          )
         ) : (
           <Text>フレーズリストがありません</Text>
         )}
       </YStack>
+      <Spacer />
     </ScrollView>
   );
 };
 
-export default PhrasesList;
+export default PhraseList;

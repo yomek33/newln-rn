@@ -8,7 +8,7 @@ export default function Layout() {
   return (
     <AuthProvider>
       <TamaguiProvider config={appConfig} defaultTheme="light">
-        <YStack f={1} backgroundColor="#FFFFFF">
+        <YStack f={1}>
           <Slot />
         </YStack>
       </TamaguiProvider>

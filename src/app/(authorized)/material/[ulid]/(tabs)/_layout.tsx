@@ -7,11 +7,18 @@ export default function MaterialTabsLayout() {
     console.error("ulid is undefined in MaterialTabsLayout");
   }
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Material",
+          sceneStyle: {
+            backgroundColor: "white",
+          },
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="article" size={size} color={color} />
           ),
@@ -26,6 +33,9 @@ export default function MaterialTabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="list" size={size} color={color} />
           ),
+          sceneStyle: {
+            backgroundColor: "white",
+          },
           headerShown: false,
         }}
         initialParams={{ ulid }}
@@ -37,6 +47,9 @@ export default function MaterialTabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="format-quote" size={size} color={color} />
           ),
+          sceneStyle: {
+            backgroundColor: "white",
+          },
           headerShown: false,
         }}
         initialParams={{ ulid }}
@@ -48,6 +61,9 @@ export default function MaterialTabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="chat" size={size} color={color} />
           ),
+          sceneStyle: {
+            backgroundColor: "white",
+          },
           headerShown: false,
         }}
         initialParams={{ ulid }}

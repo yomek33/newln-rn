@@ -1,10 +1,13 @@
 import { create } from "zustand";
 
+
+
 import { getMaterials, type Material } from "../hooks/material_api";
+
 
 export type MaterialPreview = Pick<
   Material,
-  "LocalULID" | "Title" | "Content" | "Status" | "CreatedAt"
+  "ULID" | "Title" | "Content" | "Status" | "CreatedAt"
 >;
 
 interface MaterialListState {
@@ -24,7 +27,7 @@ export const useMaterialStore = create<MaterialListState>((set) => ({
       console.log("Fetching materials...");
       const data = await getMaterials();
       const previews = data.data.map((item: Material) => ({
-        LocalULID: item.LocalULID,
+        ULID: item.ULID,
         Title: item.Title,
         Content: item.Content,
         Status: item.Status,

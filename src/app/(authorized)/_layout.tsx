@@ -17,7 +17,13 @@ export default function AppLayout() {
     return <Redirect href="/login" />;
   }
   return (
-    <Stack initialRouteName="(tabs)">
+    <Stack
+      initialRouteName="(tabs)"
+      screenOptions={{
+        contentStyle: { backgroundColor: "#f1f0ee" },
+      }}
+    >
+      <Stack.Screen name="material/[ulid]" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="newPost" options={{ headerShown: true }} />
     </Stack>

@@ -5,7 +5,7 @@ import { type Chat, type Phrase, type Word } from "./phares_api";
 export interface Material {
   ID: number;
   UserID: string;
-  LocalULID: string;
+  ULID: string;
   Title: string;
   Content: string | null;
   Status: "draft" | "published";
@@ -15,6 +15,9 @@ export interface Material {
   CreatedAt: string;
   UpdatedAt: string | null;
   DeletedAt?: string | null;
+  HasPendingPhraseList: boolean;
+  HasPendingWordList: boolean;
+  generateStatus: string | null;
 }
 
 export interface WordLists {
