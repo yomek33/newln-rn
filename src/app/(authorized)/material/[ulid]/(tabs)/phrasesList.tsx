@@ -3,12 +3,15 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { H6, Spacer, YStack } from "tamagui";
 
+
+
 import PhraseCard from "../../../../../components/PhraseCard";
 import { useMaterialStore } from "../../../../../stores/materialStore";
 
+
 const PhraseList = () => {
   const { ulid } = useLocalSearchParams();
-  const { materials } = useMaterialStore();
+  const { materials, updateMaterialData } = useMaterialStore();
   const material = ulid && typeof ulid === "string" ? materials[ulid] : null;
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +28,46 @@ const PhraseList = () => {
   const phraseLists = material?.PhraseLists ?? [];
 
   console.log("PhraseLists:", JSON.stringify(phraseLists, null, 2));
+
+  /**
+   * ✅ WebSocket 接続: PhraseLists のリアルタイム更新
+   */
+  useEffect(() => {
+    if (!ulid || typeof ulid !== "string") return;
+
+    const ws = new WebSocket(`wss://your-websocket-url/${ulid}`);
+
+    ws.onopen = () => {
+      console.log("📡 WebSocket connected for PhraseLists.");
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log("🆕 WebSocket received new PhraseLists:", data);
+
+        if (data?.PhraseLists) {
+          updateMaterialData(ulid, (currentMaterial) => ({
+            PhraseLists: data.PhraseLists,
+          }));
+        }
+      } catch (error) {
+        console.error("❌ WebSocket message error:", error);
+      }
+    };
+
+    ws.onerror = (error) => {
+      console.error("❌ WebSocket error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("❌ WebSocket disconnected.");
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, [ulid, updateMaterialData]);
 
   if (loading) {
     return (

@@ -1,6 +1,6 @@
+import { type ChatList } from "./chat";
 import { fetchWithToken } from "./fetch";
-import { type Chat, type Phrase, type Word } from "./phares_api";
-
+import { type Phrase, type Word } from "./phares_api";
 
 export interface Material {
   ID: number;
@@ -9,9 +9,9 @@ export interface Material {
   Title: string;
   Content: string | null;
   Status: "draft" | "published";
-  WordLists: WordLists[] | null;
-  PhraseLists: PhraseLists[] | null;
-  ChatList: Chat[] | null;
+  WordLists: WordLists[] | undefined;
+  PhraseLists: PhraseLists[] | undefined;
+  ChatList: ChatList | null;
   CreatedAt: string;
   UpdatedAt: string | null;
   DeletedAt?: string | null;
