@@ -7,7 +7,13 @@ import { getMaterials, type Material } from "../hooks/material_api";
 
 export type MaterialPreview = Pick<
   Material,
-  "ULID" | "Title" | "Content" | "Status" | "CreatedAt"
+  | "ULID"
+  | "Title"
+  | "Content"
+  | "Status"
+  | "CreatedAt"
+  | "WordsCount"
+  | "PhrasesCount"
 >;
 
 interface MaterialListState {
@@ -32,6 +38,8 @@ export const useMaterialStore = create<MaterialListState>((set) => ({
         Content: item.Content,
         Status: item.Status,
         CreatedAt: item.CreatedAt,
+        WordsCount: item.WordsCount,
+        PhrasesCount: item.PhrasesCount,
       }));
       set({ materials: previews });
     } catch (error) {

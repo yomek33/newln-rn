@@ -30,7 +30,6 @@ const WordsList = () => {
 
   const WordLists = material?.WordLists ?? [];
 
-  console.log("WordLists:", JSON.stringify(WordLists, null, 2));
 
   if (loading) {
     return (

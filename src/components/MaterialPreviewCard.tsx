@@ -1,8 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  type LayoutChangeEvent,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { format, isValid, parse, parseISO } from "date-fns";
@@ -17,37 +21,32 @@ const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
   material,
 }) => {
   const router = useRouter();
-
-  // Truncate content to 200 characters
-  const truncateContent = (text: string | null | undefined, limit: number) => {
-    if (!text) return "No content available";
-    const cleanedText = text.replace(/^\s*[\r\n]/gm, "");
-    return cleanedText.length > limit
-      ? cleanedText.substring(0, limit) + "..."
-      : cleanedText;
+  const [titleWidth, setTitleWidth] = React.useState<number>(0);
+  const titleRef = useRef<Text>(null);
+  console.log(material);
+  // タイトルの幅を取得
+  const handleTextLayout = (event: LayoutChangeEvent) => {
+    setTitleWidth(event.nativeEvent.layout.width);
   };
+
+  // 日付のフォーマット
   const getFormattedDate = (dateValue: string): string => {
     let date: Date | null = null;
 
     try {
-      // ISO 8601 (例: "2025-02-07T15:38:18.627254Z") の場合
       if (dateValue.includes("T") && dateValue.includes("Z")) {
         date = parseISO(dateValue);
-      }
-      // スペース区切り形式 (例: "2025-02-07 09:43:28.15704+00") の場合
-      else if (
+      } else if (
         /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}$/.test(dateValue)
       ) {
         date = parse(dateValue, "yyyy-MM-dd HH:mm:ss.SSSSSSXXX", new Date());
       }
 
-      // 無効な日付を弾く
       if (!date || !isValid(date)) {
         console.error("Invalid date format:", dateValue);
         return "N/A";
       }
 
-      // フォーマットして返す
       return format(date, "yyyy/MM/dd");
     } catch (error) {
       console.error("Failed to parse date:", dateValue, error);
@@ -55,58 +54,103 @@ const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
     }
   };
 
-  // `CreatedAt` を型安全にフォーマット
-  const formattedDate: string = getFormattedDate(material.CreatedAt);
-
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={styles.container}
       onPress={() => router.push(`/(authorized)/material/${material.ULID}`)}
     >
-      <Text style={styles.title}>{truncateContent(material.Title, 26)}</Text>
-      <Text style={styles.content}>
-        {truncateContent(material.Content, 160)}
+      {/* Title with Gradient */}
+      <View style={styles.titleContainer}>
+        <LinearGradient
+          colors={["#00FFD1", "#00FFD1"]}
+          style={[styles.gradientBackground, { width: titleWidth }]}
+        />
+        <Text
+          ref={titleRef}
+          style={styles.title}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          onLayout={handleTextLayout}
+        >
+          {material.Title}
+        </Text>
+      </View>
+
+      {/* Content */}
+      <Text style={styles.content} numberOfLines={2} ellipsizeMode="tail">
+        {material.Content ?? "No content available"}
       </Text>
 
-      {/* カレンダーアイコンと日付を横並びにする */}
-      <View style={styles.dateContainer}>
+      {/* Date & Word Count */}
+      <View style={styles.footer}>
         <FontAwesome5 name="calendar-day" size={15} color="gray" />
-        <Text style={styles.dateText}>{formattedDate}</Text>
+        <Text style={styles.dateText}>
+          {getFormattedDate(material.CreatedAt)}
+        </Text>
+
+        <View style={{ flex: 1 }} />
+
+        <Text style={styles.countText}>
+          {material.WordsCount} {material.WordsCount === 1 ? "word" : "words"}
+        </Text>
+        <Text style={styles.countText}>
+          {material.PhrasesCount}{" "}
+          {material.PhrasesCount === 1 ? "phrase" : "phrases"}
+        </Text>
       </View>
+
+      {/* Divider Line */}
+      <View style={styles.divider} />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#ffffff",
-    padding: 10,
-    marginVertical: 4,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    elevation: 3,
-    width: "100%",
-    alignSelf: "center",
+  container: {
+    paddingVertical: 10,
     paddingHorizontal: 15,
   },
+  titleContainer: {
+    position: "relative",
+    alignSelf: "flex-start",
+    paddingBottom: 4,
+  },
+  gradientBackground: {
+    position: "absolute",
+    height: 13,
+    top: "40%",
+    left: 0,
+    opacity: 0.6,
+    transform: [{ skewX: "-1deg" }],
+  },
   title: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "bold",
+    zIndex: 1,
   },
   content: {
-    fontSize: 12,
+    fontSize: 14,
     marginVertical: 4,
   },
-  dateContainer: {
-    flexDirection: "row", // 横並びにする
+  footer: {
+    flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
   },
   dateText: {
     fontSize: 14,
     color: "gray",
-    marginLeft: 5, // アイコンとの間隔
+    marginLeft: 5,
+  },
+  countText: {
+    fontSize: 14,
+    color: "gray",
+    marginLeft: 10,
+  },
+  divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    marginTop: 10,
   },
 });
 

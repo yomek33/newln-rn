@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useShallow } from "zustand/react/shallow";
-
-
 
 import MaterialPreviewCard from "../../../components/MaterialPreviewCard";
 import { type Material } from "../../../hooks/material_api";
 import { useMaterialStore } from "../../../stores/materialListStore";
-
 
 export default function Home() {
   const { materials, fetchMaterials } = useMaterialStore(

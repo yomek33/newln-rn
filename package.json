@@ -12,7 +12,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "fmt": "prettier --check \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}\"",
-    "fmt:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}\""
+    "fmt:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}\"",
+    "install": "expo install"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
@@ -28,6 +29,7 @@
     "@tamagui/themes": "^1.121.12",
     "date-fns": "^4.1.0",
     "expo": "~52.0.25",
+    "expo-linear-gradient": "^14.0.2",
     "expo-router": "^4.0.17",
     "expo-secure-store": "~14.0.1",
     "expo-status-bar": "~2.0.1",
@@ -38,6 +40,7 @@
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.22.1",
     "react-native-get-random-values": "^1.11.0",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-reanimated": "^3.16.7",
     "react-native-safe-area-context": "^5.1.0",
     "react-native-screens": "^4.5.0",
