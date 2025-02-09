@@ -19,8 +19,9 @@ export default function TabLayout() {
               <FontAwesome size={28} name="home" color={color} />
             ),
             sceneStyle: {
-              backgroundColor: "#f1f0ee",
+              backgroundColor: "#ffffff",
             },
+            // headerShown: false,
           }}
         />
         <Tabs.Screen

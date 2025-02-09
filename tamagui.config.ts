@@ -3,10 +3,6 @@ import { shorthands } from "@tamagui/shorthands";
 import { themes, tokens } from "@tamagui/themes";
 import { createTamagui } from "tamagui";
 
-
-
-
-
 const headingFont = createInterFont();
 const bodyFont = createInterFont();
 

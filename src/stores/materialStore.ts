@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
-
-
 import { getMaterialById, type Material } from "../hooks/material_api";
-
 
 interface MaterialState {
   materials: Record<string, Material>;

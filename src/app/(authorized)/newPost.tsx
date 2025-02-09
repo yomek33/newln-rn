@@ -32,6 +32,8 @@ export default function NewPost() {
           Content: response.data.Content,
           Status: response.data.Status,
           CreatedAt: response.data.CreatedAt,
+          WordsCount: null,
+          PhrasesCount: null,
         };
         console.log("Adding new material to store:", newMaterial);
         addMaterial(newMaterial);

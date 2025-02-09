@@ -18,6 +18,8 @@ export interface Material {
   HasPendingPhraseList: boolean;
   HasPendingWordList: boolean;
   generateStatus: string | null;
+  WordsCount: number | null;
+  PhrasesCount: number | null;
 }
 
 export interface WordLists {
