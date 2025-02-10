@@ -23,7 +23,6 @@ const MaterialPreviewCard: React.FC<MaterialPreviewCardProps> = ({
   const router = useRouter();
   const [titleWidth, setTitleWidth] = React.useState<number>(0);
   const titleRef = useRef<Text>(null);
-  console.log(material);
   // タイトルの幅を取得
   const handleTextLayout = (event: LayoutChangeEvent) => {
     setTitleWidth(event.nativeEvent.layout.width);

@@ -1,3 +1,4 @@
 .eslintrc.cjs
 .prettierrc.cjs
 tamagui.config.ts
+metro.config.js

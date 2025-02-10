@@ -3,10 +3,6 @@ import { View } from "react-native";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-
-
-
-
 export default function TabLayout() {
   return (
     <View style={{ flex: 1 }}>

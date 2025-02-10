@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Platform, View } from "react-native";
 import { Stack, useLocalSearchParams, useNavigation } from "expo-router";
 
+import { type ChatList } from "../../../../hooks/chat";
 import { wsWithToken } from "../../../../hooks/fetch";
 import { useMaterialStore } from "../../../../stores/materialStore";
+import { useChatStore } from "../../../../stores/useChatStore";
 
 export default function MaterialLayout() {
   const { ulid } = useLocalSearchParams();
@@ -28,8 +30,21 @@ export default function MaterialLayout() {
         setLoading(true);
         try {
           await fetchMaterial(ulid);
+
+          // ✅ Zustandの `useMaterialStore` から最新の `chatList` を取得
+          const material = useMaterialStore.getState().materials[ulid];
+
+          if (material?.ChatList?.Chats?.length) {
+            console.log(
+              "✅ ChatList is not empty. Inserting into Zustand:",
+              material.ChatList,
+            );
+            useChatStore.getState().setChatList(ulid, material.ChatList);
+          } else {
+            console.log("⚠️ ChatList is empty, skipping Zustand insertion.");
+          }
         } catch (error) {
-          console.error("Failed to load material:", error);
+          console.error("❌ Failed to load material:", error);
         }
         setLoading(false);
       }
@@ -110,6 +125,43 @@ export default function MaterialLayout() {
                 console.log("💡 Payload for wordList update:", updatePayload);
                 return updatePayload;
               });
+            } else if (data.event === "chat_list_created") {
+              console.log("💬 Chat list created (Raw Data):", data);
+
+              // `Chats` の中身を展開して確認
+              if (Array.isArray(data.data.Chats)) {
+                console.log("🔍 Chat List Details:");
+                data.data.Chats.forEach((chat, index) => {
+                  console.log(
+                    `📌 Chat #${index + 1}:`,
+                    JSON.stringify(chat, null, 2),
+                  );
+                });
+              } else {
+                console.warn(
+                  "⚠️ Chats is not an array or is empty:",
+                  data.data.Chats,
+                );
+              }
+
+              const newChatList: ChatList = {
+                ID: data.data.ID,
+                Title: data.data.Title,
+                Chats: Array.isArray(data.data.Chats) ? data.data.Chats : [],
+              };
+
+              // ✅ Zustandの `useChatStore` にセット
+              try {
+                const setChatList = useChatStore.getState().setChatList;
+                if (setChatList) {
+                  setChatList(ulid, newChatList);
+                  console.log("✅ Chat list set in Zustand:", newChatList);
+                } else {
+                  console.error("❌ Zustand's setChatList is undefined!");
+                }
+              } catch (error) {
+                console.error("❌ Error setting chat list in Zustand:", error);
+              }
             } else if (data.event === "completed") {
               console.log("💡 Processing complete.");
               wsInstance.close();

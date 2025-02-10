@@ -103,7 +103,7 @@ export const wsWithToken = async (
     }
 
     const wsUrl = requireToken ? `${url}?token=${token}` : url;
-    let ws = new WebSocket(wsUrl);
+    let ws: WebSocket = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       console.log("✅ WebSocket connected:", wsUrl);
