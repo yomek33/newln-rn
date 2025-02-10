@@ -3,12 +3,9 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { H6, YStack } from "tamagui";
 
-
-
 import WordCard from "../../../../../components/WordCard";
 import { type Word } from "../../../../../hooks/phares_api";
 import { useMaterialStore } from "../../../../../stores/materialStore";
-
 
 const WordsList = () => {
   const { ulid } = useLocalSearchParams();

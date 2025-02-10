@@ -1,9 +1,8 @@
 export interface Chat {
   ID: number;
   Detail: string;
-  UserID: string;
-  PendingMessage: number;
-  Messages: Message[];
+  ChatListID: number;
+  Messages: Message[] | null;
   CreatedAt: string;
   UpdatedAt: string;
   DeletedAt?: string | null;

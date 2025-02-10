@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
+import { type ChatList } from "../hooks/chat";
 import { getMaterialById, type Material } from "../hooks/material_api";
 
 const defaultMaterial = (ulid: string): Material => ({
@@ -56,7 +57,7 @@ export const useMaterialStore = create<MaterialState>()(
           state.materials[ulid] ?? defaultMaterial(ulid);
         const newData = updater(currentMaterial);
 
-        // `WordLists` と `PhraseLists` のマージを適切に処理
+        // Helper function to merge lists like WordLists and PhraseLists
         const mergeLists = <T extends { ID: number; Items?: any[] }>(
           existing: T[] = [],
           updates: T[] = [],
@@ -73,6 +74,23 @@ export const useMaterialStore = create<MaterialState>()(
             };
           });
 
+        // Merging logic for chat lists
+        const mergeChats = (
+          existing: ChatList | null,
+          updates: ChatList,
+        ): ChatList => {
+          if (!existing) return updates;
+
+          const updatedChats = updates.Chats.map((newChat) => {
+            const existingChat = existing.Chats.find(
+              (c) => c.ID === newChat.ID,
+            );
+            return existingChat ? { ...existingChat, ...newChat } : newChat;
+          });
+
+          return { ...existing, ...updates, Chats: updatedChats };
+        };
+
         state.materials[ulid] = {
           ...currentMaterial,
           ...newData,
@@ -82,6 +100,9 @@ export const useMaterialStore = create<MaterialState>()(
           PhraseLists: newData.PhraseLists
             ? mergeLists(currentMaterial.PhraseLists, newData.PhraseLists)
             : currentMaterial.PhraseLists,
+          ChatList: newData.ChatList
+            ? mergeChats(currentMaterial.ChatList, newData.ChatList)
+            : currentMaterial.ChatList,
           HasPendingWordList: newData.WordLists
             ? false
             : currentMaterial.HasPendingWordList,

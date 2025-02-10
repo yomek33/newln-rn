@@ -1,14 +1,17 @@
 import React, { useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, type LayoutChangeEvent } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  type LayoutChangeEvent,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { format, isValid, parse, parseISO } from "date-fns";
 
-
-
 import { type Material } from "../hooks/material_api";
-
 
 interface MaterialPreviewCardProps {
   material: Material;

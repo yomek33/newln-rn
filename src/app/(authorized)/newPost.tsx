@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useRouter } from "expo-router";
-
-
 
 import { createMaterial } from "../../hooks/material_api";
 import { useMaterialStore } from "../../stores/materialListStore";
-
 
 export default function NewPost() {
   const [title, setTitle] = useState("");

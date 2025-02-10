@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
-
-
 import { getMaterials, type Material } from "../hooks/material_api";
-
 
 export type MaterialPreview = Pick<
   Material,

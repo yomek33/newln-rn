@@ -3,11 +3,8 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { H6, Spacer, YStack } from "tamagui";
 
-
-
 import PhraseCard from "../../../../../components/PhraseCard";
 import { useMaterialStore } from "../../../../../stores/materialStore";
-
 
 const PhraseList = () => {
   const { ulid } = useLocalSearchParams();
