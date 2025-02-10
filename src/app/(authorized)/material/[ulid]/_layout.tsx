@@ -138,10 +138,10 @@ export default function MaterialLayout() {
                   );
                 });
               } else {
-                console.warn(
-                  "⚠️ Chats is not an array or is empty:",
-                  data.data.Chats,
-                );
+                // console.warn(
+                //   "⚠️ Chats is not an array or is empty:",
+                //   data.data.Chats,
+                // );
               }
 
               const newChatList: ChatList = {
@@ -155,7 +155,7 @@ export default function MaterialLayout() {
                 const setChatList = useChatStore.getState().setChatList;
                 if (setChatList) {
                   setChatList(ulid, newChatList);
-                  console.log("✅ Chat list set in Zustand:", newChatList);
+                  //  console.log("✅ Chat list set in Zustand:", newChatList);
                 } else {
                   console.error("❌ Zustand's setChatList is undefined!");
                 }
@@ -180,7 +180,7 @@ export default function MaterialLayout() {
 
         setWs(wsInstance);
       } catch (error) {
-        console.error("Failed to connect WebSocket:", error);
+        // console.error("Failed to connect WebSocket:", error);
       }
     };
 
@@ -189,7 +189,7 @@ export default function MaterialLayout() {
     });
     return () => {
       if (wsInstance) {
-        console.log("⚡️ Component unmounted. Closing WebSocket.");
+        //console.log("⚡️ Component unmounted. Closing WebSocket.");
         wsInstance.close();
       }
     };

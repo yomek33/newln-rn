@@ -20,65 +20,75 @@ interface Message {
   ChatID: number;
   SenderType: string;
 }
+
+interface Message {
+  ID: number;
+  Content: string;
+  ChatID: number;
+  SenderType: string;
+}
 const ChatScreen = () => {
   const { ulid: materialULID } = useLocalSearchParams();
-  const { materials } = useMaterialStore();
-  const material =
-    materialULID && !Array.isArray(materialULID)
-      ? materials[materialULID]
-      : null;
-  const { chatList, connectChatWS, disconnectChatWS } = useChatStore();
 
-  console.log(JSON.stringify(material, null, 2));
-  console.log(JSON.stringify(chatList, null, 2));
-  const chatData =
-    typeof materialULID === "string"
-      ? chatList[materialULID]?.Chats?.[0]
-      : undefined;
+  // デモ用ダミーデータ
+  const dummyMessages: Message[] = [
+    {
+      ID: 1,
+      Content: "Tell me what you learned from the article!",
+      ChatID: 1,
+      SenderType: "bot",
+    },
+  ];
 
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
-  const chatID = chatData?.ID;
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log("ChatID:", chatID);
+
+  useEffect(() => {
+    // 初回レンダリング時にダミーデータをセット
+    setMessages(dummyMessages);
+  }, []);
+
   async function sendMessage() {
     if (!inputText) return;
-    setLoading(true); // ローディング開始
+    setLoading(true);
 
     try {
-      const { data, status } = await fetchWithToken<{ history: Message[] }>(
-        `http://localhost:8080/api/chat/${chatID}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatID?.toString(),
-            message: inputText,
-          }),
-          requireToken: true, // トークンが必要な場合
-        },
-      );
+      // ダミーデータとして新しいメッセージを追加
+      const newMessage: Message = {
+        ID: messages.length + 1,
+        Content: inputText,
+        ChatID: 1,
+        SenderType: "user",
+      };
 
-      if (!status) {
-        console.error("Failed to send message");
-        return;
-      }
-      setMessages(data.history); // 最新のメッセージ履歴をセット
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+      // 簡単なレスポンスを追加
+      setTimeout(() => {
+        const botResponse: Message = {
+          ID: messages.length + 2,
+          Content: "Interesting! Can you tell me more?",
+          ChatID: 1,
+          SenderType: "bot",
+        };
+        setMessages((prevMessages) => [...prevMessages, botResponse]);
+        setLoading(false);
+      }, 1000);
+
       setInputText(""); // 入力欄をクリア
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
-      setLoading(false); // ローディング終了
+      setLoading(false);
     }
   }
+
   return (
     <YStack padding="$4" flex={1}>
-      <H3>Chat</H3>
-
       {/* メッセージ一覧 */}
       <FlatList
-        data={chatData?.Messages || []}
+        data={messages}
         keyExtractor={(item) => item.ID.toString()}
         renderItem={({ item }) => (
           <View
@@ -125,7 +135,7 @@ const styles = StyleSheet.create({
   },
   botMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#E5E5EA",
+    backgroundColor: "green",
   },
   messageText: {
     color: "#fff",

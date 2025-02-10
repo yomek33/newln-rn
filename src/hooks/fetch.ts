@@ -115,9 +115,9 @@ export const wsWithToken = async (
         if (onMessage) onMessage(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error("❌ WebSocket message parse error:", error.message);
+          // console.error("❌ WebSocket message parse error:", error.message);
         } else {
-          console.error("❌ WebSocket message parse error: Unknown error");
+          //    console.error("❌ WebSocket message parse error: Unknown error");
         }
       }
     };
@@ -138,9 +138,9 @@ export const wsWithToken = async (
           const newToken = await getToken("accessToken");
 
           if (!newToken) {
-            console.error(
-              "❌ Failed to refresh token. User might be logged out.",
-            );
+            // console.error(
+            //   "❌ Failed to refresh token. User might be logged out.",
+            // );
             return;
           }
 
@@ -148,12 +148,12 @@ export const wsWithToken = async (
           ws = await wsWithToken(url, options);
         } catch (refreshError: unknown) {
           if (refreshError instanceof Error) {
-            console.error(
-              "❌ WebSocket reconnect failed:",
-              refreshError.message,
-            );
+            // console.error(
+            //   "❌ WebSocket reconnect failed:",
+            //   refreshError.message,
+            // );
           } else {
-            console.error("❌ WebSocket reconnect failed: Unknown error");
+            //  console.error("❌ WebSocket reconnect failed: Unknown error");
           }
         }
       }
@@ -164,9 +164,9 @@ export const wsWithToken = async (
     return ws;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("❌ Error during wsWithToken:", error.message);
+      //console.error("❌ Error during wsWithToken:", error.message);
     } else {
-      console.error("❌ Error during wsWithToken: Unknown error");
+      //console.error("❌ Error during wsWithToken: Unknown error");
     }
     throw error;
   }

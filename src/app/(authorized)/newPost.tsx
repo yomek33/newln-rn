@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   textArea: {
-    height: 100,
+    height: 400,
     textAlignVertical: "top",
   },
   button: {
